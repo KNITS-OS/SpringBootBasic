@@ -18,10 +18,9 @@
 
 logging:
   level:
-    ROOT: DEBUG
-    tech.jhipster: DEBUG
+    ROOT: INFO
     org.hibernate.SQL: DEBUG
-    com.knits.care: DEBUG
+    com.knits: DEBUG
 
 spring:
   devtools:
@@ -37,8 +36,8 @@ spring:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/product?useSSL=false
-    username: product
-    password: your-local-pw-here
+    username: root
+    password: stefan0
     hikari:
       poolName: Hikari
       auto-commit: false

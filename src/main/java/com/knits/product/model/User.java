@@ -36,6 +36,6 @@ public class User extends AbstractAuditingEntity implements Serializable {
     private String email;
 
     @Column(nullable = false)
-    private boolean active = false;
+    private Boolean active = false;
 
 }
