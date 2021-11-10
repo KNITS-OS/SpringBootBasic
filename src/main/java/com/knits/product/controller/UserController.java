@@ -52,7 +52,7 @@ public class UserController {
     }
 
     @PutMapping(value = "/users", produces = {"application/json"}, consumes = { "application/json"})
-    public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<UserDTO> updateUser( @RequestBody UserDTO userDTO) {
         log.debug("REST request to updateUser User ");
         if (userDTO == null) {
             throw new UserException("User data are missing");
@@ -62,7 +62,7 @@ public class UserController {
                 .body(userService.update(userDTO));
     }
 
-    @PatchMapping(value = "/employees/{id}",  produces = {"application/json"}, consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/users/{id}",  produces = {"application/json"}, consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<UserDTO> partialUpdateUser(
             @PathVariable(value = "id", required = false) final Long id,
             @RequestBody UserDTO userDTO){
@@ -76,7 +76,7 @@ public class UserController {
                 .body(userService.partialUpdate(userDTO));
     }
 
-    @DeleteMapping("/employees/{id}")
+    @DeleteMapping("/users/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         log.debug("REST request to delete User : {}", id);
         userService.delete(id);

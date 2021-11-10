@@ -9,12 +9,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.text.html.Option;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -39,7 +38,9 @@ public class UserService {
      */
     public UserDTO save(UserDTO userDTO) {
         log.debug("Request to save User : {}", userDTO);
+       // userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         User user = userMapper.toEntity(userDTO);
+
         user = userRepository.save(user);
         return userMapper.toDto(user);
     }
