@@ -71,6 +71,7 @@ public class UserController {
         if (userDTO == null) {
             throw new UserException("User data are missing");
         }
+        userDTO.setId(id);
         return ResponseEntity
                 .ok()
                 .body(userService.partialUpdate(userDTO));
