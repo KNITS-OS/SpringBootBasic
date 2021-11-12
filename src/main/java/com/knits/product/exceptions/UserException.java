@@ -6,6 +6,11 @@ public class UserException extends AppException{
         super(message);
     }
 
+    public UserException(String message,  int code){
+        super(message);
+        setCode(code);
+    }
+
     public UserException(Exception e){
         super(e);
     }

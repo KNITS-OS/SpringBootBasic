@@ -1,5 +1,6 @@
 package com.knits.product.service;
 
+import com.knits.product.exceptions.ExceptionCodes;
 import com.knits.product.exceptions.UserException;
 import com.knits.product.model.User;
 import com.knits.product.repository.UserRepository;
@@ -90,7 +91,7 @@ public class UserService {
     public UserDTO findById(Long id) {
 
         log.debug("Request User by id : {}", id);
-        User user = userRepository.findById(id).orElseThrow(() -> new UserException("User#" + id + " not found"));
+        User user = userRepository.findById(id).orElseThrow(() -> new UserException("User#" + id + " not found", ExceptionCodes.USER_NOT_FOUND));
         return userMapper.toDto(user);
     }
 
