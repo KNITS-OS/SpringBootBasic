@@ -20,18 +20,18 @@ public class ExceptionController {
     @ExceptionHandler(UserException.class)
     @ResponseBody
     public ResponseEntity<ExceptionDto> handleUserException(UserException ex) {
-        return wrapIntoResponseEntity(ex, HttpStatus.NOT_ACCEPTABLE);
+        return wrapIntoResponseEntity(ex, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(SystemException.class)
     @ResponseBody
-    public ResponseEntity<ExceptionDto> handleAllException(SystemException ex) {
+    public ResponseEntity<ExceptionDto> handleSystemException(SystemException ex) {
         return wrapIntoResponseEntity(ex, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(Exception.class)
     @ResponseBody
-    public ResponseEntity<ExceptionDto> handleAllException(Exception ex) {
+    public ResponseEntity<ExceptionDto> handleAllExceptions(Exception ex) {
         log.error(ex.getMessage(),ex);
         ExceptionDto exDto = new ExceptionDto(ExceptionCodes.UNMAPPED_EXCEPTION_CODE,ex.getMessage());
         return wrapIntoResponseEntity(exDto, HttpStatus.INTERNAL_SERVER_ERROR);

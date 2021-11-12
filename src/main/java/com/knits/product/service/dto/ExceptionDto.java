@@ -15,15 +15,9 @@ public class ExceptionDto {
     private int code;
     private String message;
 
-
-
     public ExceptionDto(AppException e){
         setCode(e.getCode());
         setMessage(e.getMessage());
     }
 
-    public ExceptionDto(SystemException e){
-        setCode(e.getCode());
-        setMessage(ExceptionCodes.INTERNAL_EX_MESSAGE);
-    }
 }
