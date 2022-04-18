@@ -1,0 +1,13 @@
+version: "3"
+services:
+  mysql:
+    image: mysql:8
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: 'spring_boot_basic'
+      MYSQL_ROOT_PASSWORD: '5MfOibmnApZg6DEWogM0toTgIrKuzVBY'
+    volumes:
+      - mysql:/var/lib/mysql
+volumes:
+  mysql:
