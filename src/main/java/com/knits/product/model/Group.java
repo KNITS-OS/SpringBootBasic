@@ -24,6 +24,6 @@ public class Group extends BaseEntity implements Serializable {
     @Column
     private String description;
 
-    @ManyToMany(mappedBy = "groups")
+    @ManyToMany
     private List<User> members;
 }

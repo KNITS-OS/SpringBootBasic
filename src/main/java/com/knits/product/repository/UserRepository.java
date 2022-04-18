@@ -9,7 +9,7 @@ import java.util.Optional;
 /**
  * Spring Data JPA repository for the {@link User} entity.
  */
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends BaseEntityRepository<User> {
 
     Optional<User> findOneByLogin(String login);
 
