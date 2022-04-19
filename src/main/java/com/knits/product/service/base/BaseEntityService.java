@@ -65,7 +65,7 @@ public abstract class BaseEntityService<E extends BaseEntity, D extends BaseEnti
         return mapper.toDto(entity);
     }
 
-    private E findByIdOrThrowException(Long id) {
+    public E findByIdOrThrowException(Long id) {
         return repository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 }
