@@ -3,77 +3,86 @@ package com.knits.product.service.country;
 import com.knits.product.model.Country;
 import com.knits.product.repository.CountryRepository;
 import com.knits.product.service.country.dto.CountryDto;
+import com.knits.product.service.country.mapper.CountryMapper;
+import org.checkerframework.checker.units.qual.C;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.*;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ActiveProfiles("test")
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
+@DisplayName("CountryService Tests")
 class CountryServiceTest {
-    @Autowired
+    @Spy
+    private final CountryMapper countryMapper = new CountryMapper();
+    @Captor
+    private ArgumentCaptor<Country> countryCaptor;
+    @Mock
+    private CountryRepository countryRepository;
+    @InjectMocks
     private CountryService countryService;
 
     @Test
+    @DisplayName("Save - Success")
     void save() {
-        CountryDto dto = new CountryDto();
-        dto.setCode("EE");
-        dto.setCodeIso3("EST");
-        dto.setNumber("372");
-        dto.setName("Estonia");
-        CountryDto actualDto = countryService.save(dto);
-        assertThat(actualDto.getName()).isEqualTo("Estonia");
-        assertThat(actualDto.getCodeIso3()).isEqualTo("EST");
-        assertThat(actualDto.getNumber()).isEqualTo("372");
-        assertThat(actualDto.getCode()).isEqualTo("EE");
+        CountryDto countryToSave = new CountryDto();
+        countryToSave.setCode("EE");
+        countryToSave.setCodeIso3("EST");
+        countryToSave.setNumber("372");
+        countryToSave.setName("Estonia");
+
+        Country country = new Country();
+        country.setCode("EE");
+        country.setCodeIso3("EST");
+        country.setNumber("372");
+        country.setName("Estonia");
+        when(countryRepository.save(any(Country.class))).thenReturn(country);
+        CountryDto countrySaved = countryService.save(countryToSave);
+
+        assertThat(countrySaved.getCode()).isEqualTo("EE");
+        assertThat(countrySaved.getCodeIso3()).isEqualTo("EST");
+        assertThat(countrySaved.getNumber()).isEqualTo("372");
+        assertThat(countrySaved.getName()).isEqualTo("Estonia");
     }
 
     @Test
+    @DisplayName("Partial Update - Success")
     void partialUpdate() {
-        CountryDto updateDto = new CountryDto();
+        CountryDto countryToSave = new CountryDto();
         Long id = 4L;
-        updateDto.setId(id);
-        updateDto.setNumber("371");
-        updateDto.setNumber("Latvia");
+        countryToSave.setId(id);
+        countryToSave.setNumber("371");
+        countryToSave.setName("Latvia");
+
+        Country country = new Country();
+        country.setNumber("371");
+        country.setName("Latvia");
+        country.setCodeIso3("BEL");
+        country.setCode("BY");
+
         Country mockedCountry = new Country("Belarus", "BEL", "BY", "375");
         mockedCountry.setId(id);
-        when(countryService.findByIdOrThrowException(id)).thenReturn(mockedCountry);
-        CountryDto actualDto = countryService.partialUpdate(updateDto);
-        assertThat(actualDto.getName()).isEqualTo("Latvia");
-        assertThat(actualDto.getNumber()).isEqualTo("371");
-        assertThat(actualDto.getCodeIso3()).isNotNull();
-        assertThat(actualDto.getCode()).isNotNull();
-        assertThat(actualDto.getCodeIso3()).isEqualTo("BEL");
-        assertThat(actualDto.getCode()).isEqualTo("BY");
-    }
 
-    @Test
-    void update() {
-    }
+        when(countryRepository.findById(id)).thenReturn(Optional.of(mockedCountry));
+        when(countryRepository.save(any(Country.class))).thenReturn(country);
+        CountryDto countrySaved = countryService.partialUpdate(countryToSave);
 
-    @Test
-    void findById() {
-    }
-
-    @Test
-    void delete() {
-    }
-
-    @Test
-    void deleteById() {
-    }
-
-    @Test
-    void findAll() {
+        assertThat(countrySaved.getName()).isEqualTo("Latvia");
+        assertThat(countrySaved.getNumber()).isEqualTo("371");
+        assertThat(countrySaved.getCodeIso3()).isNotNull();
+        assertThat(countrySaved.getCode()).isNotNull();
+        assertThat(countrySaved.getCodeIso3()).isEqualTo("BEL");
+        assertThat(countrySaved.getCode()).isEqualTo("BY");
     }
 }

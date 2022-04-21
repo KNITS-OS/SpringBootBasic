@@ -62,6 +62,7 @@ public abstract class BaseEntityService<E extends BaseEntity, D extends BaseEnti
             entity = functionToApply.apply(entity);
         }
         entity = repository.save(entity);
+        log.debug("Changes applied to entity={}", entity);
         return mapper.toDto(entity);
     }
 
