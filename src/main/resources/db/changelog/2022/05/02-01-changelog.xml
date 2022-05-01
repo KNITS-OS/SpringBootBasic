@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1651441608369-1" author="Nikolas Laus (generated)">
+        <createTable tableName="business_unit">
+            <column autoIncrement="true" name="id" type="BIGINT(19)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PRIMARY"/>
+            </column>
+            <column name="name" type="VARCHAR(128)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1651441608369-2" author="Nikolas Laus (generated)">
+        <createTable tableName="country">
+            <column autoIncrement="true" name="id" type="BIGINT(19)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PRIMARY"/>
+            </column>
+            <column name="code" type="VARCHAR(255)"/>
+            <column name="code_iso3" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="number" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1651441608369-3" author="Nikolas Laus (generated)">
+        <createTable tableName="employee_group">
+            <column autoIncrement="true" name="id" type="BIGINT(19)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PRIMARY"/>
+            </column>
+            <column name="active" type="BOOLEAN(1)"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1651441608369-4" author="Nikolas Laus (generated)">
+        <createTable tableName="employee_group_members">
+            <column name="groups_id" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="members_id" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1651441608369-5" author="Nikolas Laus (generated)">
+        <createTable tableName="office">
+            <column autoIncrement="true" name="id" type="BIGINT(19)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PRIMARY"/>
+            </column>
+            <column name="city" type="VARCHAR(255)"/>
+            <column name="postal_code" type="VARCHAR(255)"/>
+            <column name="street" type="VARCHAR(255)"/>
+            <column name="country_id" type="BIGINT(19)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1651441608369-6" author="Nikolas Laus (generated)">
+        <createTable tableName="role">
+            <column autoIncrement="true" name="id" type="BIGINT(19)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PRIMARY"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1651441608369-7" author="Nikolas Laus (generated)">
+        <createTable tableName="user">
+            <column autoIncrement="true" name="id" type="BIGINT(19)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PRIMARY"/>
+            </column>
+            <column name="active" type="BOOLEAN(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="birth_date" type="datetime"/>
+            <column name="company_mobile_phone" type="VARCHAR(255)"/>
+            <column name="company_phone" type="VARCHAR(255)"/>
+            <column name="date_of_leave" type="datetime"/>
+            <column name="email" type="VARCHAR(254)">
+                <constraints unique="true"/>
+            </column>
+            <column name="end_date" type="datetime"/>
+            <column name="first_name" type="VARCHAR(50)"/>
+            <column name="gender" type="VARCHAR(255)"/>
+            <column name="last_name" type="VARCHAR(50)"/>
+            <column name="login" type="VARCHAR(50)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="offboarding_date" type="datetime"/>
+            <column name="onboarding_date" type="datetime"/>
+            <column name="password_hash" type="VARCHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_date" type="datetime"/>
+            <column name="title" type="VARCHAR(255)"/>
+            <column name="nationality_id" type="BIGINT(19)"/>
+            <column name="office_id" type="BIGINT(19)"/>
+            <column name="role_id" type="BIGINT(19)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1651441608369-14" author="Nikolas Laus (generated)">
+        <addForeignKeyConstraint baseColumnNames="members_id" baseTableName="employee_group_members"
+                                 constraintName="FK8fb14uke1c10tugxixokufsj6" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="id" referencedTableName="user"/>
+
+        <createIndex indexName="FK8fb14uke1c10tugxixokufsj6" tableName="employee_group_members">
+            <column name="members_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1651441608369-15" author="Nikolas Laus (generated)">
+        <addForeignKeyConstraint baseColumnNames="nationality_id" baseTableName="user"
+                                 constraintName="FKhchlwnonlwmchvji9ulgfchsp" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="id" referencedTableName="country"/>
+
+        <createIndex indexName="FKhchlwnonlwmchvji9ulgfchsp" tableName="user">
+            <column name="nationality_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1651441608369-16" author="Nikolas Laus (generated)">
+        <addForeignKeyConstraint baseColumnNames="country_id" baseTableName="office"
+                                 constraintName="FKio9q8gq963195i6i6qiy83qfd" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="id" referencedTableName="country"/>
+
+        <createIndex indexName="FKio9q8gq963195i6i6qiy83qfd" tableName="office">
+            <column name="country_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1651441608369-17" author="Nikolas Laus (generated)">
+        <addForeignKeyConstraint baseColumnNames="groups_id" baseTableName="employee_group_members"
+                                 constraintName="FKl931i86f2jxrfpnju4kh51wq5" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="id" referencedTableName="employee_group"/>
+
+        <createIndex indexName="FKl931i86f2jxrfpnju4kh51wq5" tableName="employee_group_members">
+            <column name="groups_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1651441608369-18" author="Nikolas Laus (generated)">
+        <addForeignKeyConstraint baseColumnNames="office_id" baseTableName="user"
+                                 constraintName="FKmrlaeiw7ten8d3sjejpif4tyf" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="id" referencedTableName="office"/>
+
+        <createIndex indexName="FKmrlaeiw7ten8d3sjejpif4tyf" tableName="user">
+            <column name="office_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1651441608369-19" author="Nikolas Laus (generated)">
+        <addForeignKeyConstraint baseColumnNames="role_id" baseTableName="user"
+                                 constraintName="FKn82ha3ccdebhokx3a8fgdqeyy" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="id" referencedTableName="role"/>
+
+        <createIndex indexName="FKn82ha3ccdebhokx3a8fgdqeyy" tableName="user">
+            <column name="role_id"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>
